@@ -30,30 +30,37 @@ void setup(void) {
 
 void loop(void) {  
   String message = readXbee();
-
   if (message.indexOf("Light") == 0) {
+    Serial.println("Attaching Light");
     light.attach(lightServo);  
-    delay(250);          
-    if (message.indexOf("On")) {
+    delay(250);  
+    if (message.indexOf("On") > 0) {
+      Serial.println("\tTurning On");
       light.write(90);
     }
-    else if (message.indexOf("Off")) {
+    else if (message.indexOf("Off") > 0) {
+      Serial.println("\tTurning Off");
       light.write(0);
     }
     delay(250);
+    Serial.println("Detaching Light");
     light.detach();
   }
   
   if (message.indexOf("Door") == 0) {
+    Serial.println("Attaching Door");
     door.attach(doorServo);  
     delay(250);          
-    if (message.indexOf("Unlock")) {
-      door.write(10);
-    }
-    else if (message.indexOf("Lock")) {
+    if (message.indexOf("Unlock") > 0) {
+      Serial.println("\t Unlocking");
       door.write(180);
     }
-    delay(250);
+    else if (message.indexOf("Lock") > 0) {
+      Serial.println("\t Locking");
+      door.write(70);
+    }
+    delay(1500);
+    Serial.println("Detaching Door");
     door.detach();
   }
   delay(80);
